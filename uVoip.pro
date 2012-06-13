@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui multimedia
+QT       += core gui multimedia network
 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -17,12 +17,16 @@ SOURCES += main.cpp \
     uvoip.cpp \
     visualaudiolevel.cpp \
     audiostream.cpp \
-    audioplayback.cpp
+    audioplayback.cpp \
+    client.cpp \
+    server.cpp
 
 HEADERS  += \
     uvoip.h \
     visualaudiolevel.h \
     audiostream.h \
-    audioplayback.h
+    audioplayback.h \
+    client.h \
+    server.h
 
 FORMS +=
