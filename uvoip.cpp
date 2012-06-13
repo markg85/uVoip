@@ -35,19 +35,19 @@ void UVoip::initializeLayout()
     m_audioLevelRight = new VisualAudioLevel();
 
     // Buttons
-    m_recordMicrophone = new QPushButton("Record Micorphone");
-    connect(m_recordMicrophone, SIGNAL(clicked()), this, SLOT(toggleRecord()));
+//    m_recordMicrophone = new QPushButton("Record Micorphone");
+//    connect(m_recordMicrophone, SIGNAL(clicked()), this, SLOT(toggleRecord()));
 
-    m_playbackMicrophone = new QPushButton("Playback Microphone");
-    connect(m_playbackMicrophone, SIGNAL(clicked()), this, SLOT(togglePlayback()));
+//    m_playbackMicrophone = new QPushButton("Playback Microphone");
+//    connect(m_playbackMicrophone, SIGNAL(clicked()), this, SLOT(togglePlayback()));
 
     // Fill the left part
     m_vLayoutLeft->addWidget(m_audioLevelLeft);
-    m_vLayoutLeft->addWidget(m_recordMicrophone);
+//    m_vLayoutLeft->addWidget(m_recordMicrophone);
 
     // Fill the right part
     m_vLayoutRight->addWidget(m_audioLevelRight);
-    m_vLayoutRight->addWidget(m_playbackMicrophone);
+//    m_vLayoutRight->addWidget(m_playbackMicrophone);
 
     // put everything together
     m_hLayout->addLayout(m_vLayoutLeft);
@@ -63,45 +63,46 @@ void UVoip::initializeLayout()
 
 void UVoip::initializeMicrophone()
 {
-    m_stream = new AudioStream(this);
+    m_stream = new AudioStream();
     connect(m_stream, SIGNAL(update()), SLOT(refreshMicSoundLevel()));
+    m_stream->start();
 }
 
-void UVoip::toggleRecord()
-{
-    if(isRecording)
-    {
-        m_stream->stop();
-        m_recordMicrophone->setText("Record Microphone");
-    }
-    else
-    {
-        // We are not recording. We start recording here and set the button text to "Stop recording".
-        m_stream->start("");
-        m_recordMicrophone->setText("Stop recording");
-    }
+//void UVoip::toggleRecord()
+//{
+//    if(isRecording)
+//    {
+//        m_stream->stop();
+//        m_recordMicrophone->setText("Record Microphone");
+//    }
+//    else
+//    {
+//        // We are not recording. We start recording here and set the button text to "Stop recording".
+//        m_stream->start();
+//        m_recordMicrophone->setText("Stop recording");
+//    }
 
-    isRecording = !isRecording;
+//    isRecording = !isRecording;
 
-    qDebug() << "toggleRecord pressed...";
-}
+//    qDebug() << "toggleRecord pressed...";
+//}
 
-void UVoip::togglePlayback()
-{
-    if(isPlaying)
-    {
-        m_playbackMicrophone->setText("Playback Microphone");
-    }
-    else
-    {
-        m_playback->startPlaying();
-        m_playbackMicrophone->setText("Stop playing");
-    }
+//void UVoip::togglePlayback()
+//{
+//    if(isPlaying)
+//    {
+//        m_playbackMicrophone->setText("Playback Microphone");
+//    }
+//    else
+//    {
+//        m_playback->startPlaying();
+//        m_playbackMicrophone->setText("Stop playing");
+//    }
 
-    isPlaying = !isPlaying;
+//    isPlaying = !isPlaying;
 
-    qDebug() << "togglePlayback pressed...";
-}
+//    qDebug() << "togglePlayback pressed...";
+//}
 
 void UVoip::refreshMicSoundLevel()
 {

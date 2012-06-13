@@ -6,17 +6,19 @@
 #include <QAudioFormat>
 
 // This is going to be inherited by a QTcpSocket to put the audio in a socket for some client to register to and listen to the audio
-class AudioStream : public QFile
+class AudioStream : public QIODevice
 {
     Q_OBJECT
 public:
     explicit AudioStream(QObject *parent = 0);
-    void start(const QString& file);
+    void start();
     void stop();
 
     qreal level() const { return m_level; }
     qint64 writeData(const char *data, qint64 len);
-    
+    qint64 readData(char *data, qint64 maxlen);
+
+
 signals:
     void update();
     

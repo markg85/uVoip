@@ -5,7 +5,7 @@
 
 
 AudioStream::AudioStream(QObject *parent)
-    : QFile(parent)
+    : QIODevice(parent)
     , m_format()
     , m_audioInput()
     , m_maxAmplitude(0)
@@ -56,9 +56,8 @@ AudioStream::AudioStream(QObject *parent)
     m_audioInput = new QAudioInput(QAudioDeviceInfo::defaultInputDevice(), m_format, this);
 }
 
-void AudioStream::start(const QString& file)
+void AudioStream::start()
 {
-    setFileName("test.raw");
     open(QIODevice::WriteOnly | QIODevice::Truncate);
     m_audioInput->start(this);
 }
@@ -111,5 +110,14 @@ qint64 AudioStream::writeData(const char *data, qint64 len)
     }
 
     emit update();
-    return QFile::writeData(data, len);
+    return len;
+}
+
+// Why do i need to do this?
+qint64 AudioStream::readData(char *data, qint64 maxlen)
+{
+    Q_UNUSED(data)
+    Q_UNUSED(maxlen)
+
+    return 0;
 }

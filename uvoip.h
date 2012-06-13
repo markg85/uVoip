@@ -21,8 +21,8 @@ public:
 signals:
     
 public slots:
-    void toggleRecord();
-    void togglePlayback();
+//    void toggleRecord();
+//    void togglePlayback();
     void refreshMicSoundLevel();
 
 private:
