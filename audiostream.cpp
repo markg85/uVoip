@@ -10,6 +10,8 @@ AudioStream::AudioStream(QObject *parent)
     , m_audioInput()
     , m_maxAmplitude(0)
     , m_level(0.0)
+    , m_client()
+    , hasClientSocket(false)
 {
     m_format.setFrequency(8000);
     m_format.setChannels(1);
@@ -70,6 +72,11 @@ void AudioStream::stop()
 
 qint64 AudioStream::writeData(const char *data, qint64 len)
 {
+    if(hasClientSocket)
+    {
+        m_client->write(data, len);
+    }
+
     if (m_maxAmplitude) {
         Q_ASSERT(m_format.sampleSize() % 8 == 0);
         const int channelBytes = m_format.sampleSize() / 8;
@@ -109,7 +116,9 @@ qint64 AudioStream::writeData(const char *data, qint64 len)
         m_level = qreal(maxValue) / m_maxAmplitude;
     }
 
-    emit update();
+
+
+    emit updateLevel(m_level);
     return len;
 }
 
@@ -120,4 +129,11 @@ qint64 AudioStream::readData(char *data, qint64 maxlen)
     Q_UNUSED(maxlen)
 
     return 0;
+}
+
+
+void AudioStream::slotClientSocket(QTcpSocket *client)
+{
+    m_client = client;
+    hasClientSocket = true;
 }

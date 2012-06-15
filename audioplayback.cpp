@@ -27,16 +27,11 @@ void AudioPlayback::stopPlaying()
     delete m_audioOutput;
 }
 
-void AudioPlayback::startPlaying()
+void AudioPlayback::startPlaying(QTcpSocket *client)
 {
-    m_inputFile.setFileName("test.raw");
-    m_inputFile.open(QIODevice::ReadOnly);
-
-    qDebug() << "start playing file...";
-
-    m_audioOutput = new QAudioOutput(m_format, this);
+    m_audioOutput = new QAudioOutput(m_format);
     connect(m_audioOutput,SIGNAL(stateChanged(QAudio::State)),SLOT(finishedPlaying(QAudio::State)));
-    m_audioOutput->start(&m_inputFile);
+    m_audioOutput->start(client);
 }
 
 void AudioPlayback::finishedPlaying(QAudio::State state)

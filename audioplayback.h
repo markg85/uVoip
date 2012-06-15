@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QAudioFormat>
 #include <QAudioOutput>
+#include <QTcpSocket>
 
 class AudioPlayback : public QObject
 {
@@ -16,7 +17,7 @@ signals:
     
 public slots:
     void stopPlaying();
-    void startPlaying();
+    void startPlaying(QTcpSocket* client);
     void finishedPlaying(QAudio::State state);
 
 private:

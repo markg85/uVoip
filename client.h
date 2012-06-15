@@ -15,8 +15,10 @@ class Client : public QObject
 public:
     explicit Client(QObject *parent = 0);
     void connectToServer(const QString& address, uint port);
+    QTcpSocket* socket();
     
 signals:
+    void connectedSocket(QTcpSocket*);
     
 public slots:
     void sendAudio();

@@ -57,16 +57,8 @@ void UVoip::initializeLayout()
     setCentralWidget(window.data());
     QWidget *const windowPtr = window.take(); // ownership transferred
     windowPtr->show();
-
-    initializeMicrophone();
 }
 
-void UVoip::initializeMicrophone()
-{
-    m_stream = new AudioStream();
-    connect(m_stream, SIGNAL(update()), SLOT(refreshMicSoundLevel()));
-    m_stream->start();
-}
 
 //void UVoip::toggleRecord()
 //{
@@ -104,7 +96,12 @@ void UVoip::initializeMicrophone()
 //    qDebug() << "togglePlayback pressed...";
 //}
 
-void UVoip::refreshMicSoundLevel()
+void UVoip::slotUpdateLocalLevel(qreal level)
 {
-    m_audioLevelLeft->setLevel(m_stream->level());
+    m_audioLevelLeft->setLevel(level);
+}
+
+void UVoip::slotUpdateRemoteLevel(qreal level)
+{
+    m_audioLevelRight->setLevel(level);
 }

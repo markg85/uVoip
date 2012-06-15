@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QAudioInput>
 #include <QAudioFormat>
+#include <QTcpSocket>
 
 // This is going to be inherited by a QTcpSocket to put the audio in a socket for some client to register to and listen to the audio
 class AudioStream : public QIODevice
@@ -20,15 +21,18 @@ public:
 
 
 signals:
-    void update();
+    void updateLevel(qreal);
     
 public slots:
+    void slotClientSocket(QTcpSocket* client);
 
 private:
     QAudioFormat m_format;
     QAudioInput* m_audioInput;
     quint16 m_maxAmplitude;
     qreal m_level; // 0.0 <= m_level <= 1.0
+    QTcpSocket* m_client;
+    bool hasClientSocket;
     
 };
 

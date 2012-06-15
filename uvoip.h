@@ -16,14 +16,14 @@ public:
     explicit UVoip(QWidget *parent = 0);
 
     void initializeLayout();
-    void initializeMicrophone();
     
 signals:
     
 public slots:
 //    void toggleRecord();
 //    void togglePlayback();
-    void refreshMicSoundLevel();
+    void slotUpdateLocalLevel(qreal level);
+    void slotUpdateRemoteLevel(qreal level);
 
 private:
     QHBoxLayout* m_hLayout;

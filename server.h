@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include "audioplayback.h"
 
 /*
  * The server receives data and plays it.
@@ -27,6 +28,7 @@ private:
 
     // TODO: this is for just 1 client meaning you can only have a 1on1 conversation, not multiple people in 1 call.
     QTcpSocket* m_clientConnection;
+    AudioPlayback m_playback;
     
 };
 

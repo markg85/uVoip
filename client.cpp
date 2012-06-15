@@ -16,8 +16,14 @@ void Client::connectToServer(const QString &address, uint port)
     m_client.connectToHost(addr, port);
 }
 
+QTcpSocket *Client::socket()
+{
+    return &m_client;
+}
+
 void Client::sendAudio()
 {
     m_client.write(QByteArray("Howdy, this is send from the client to the server!"));
     qDebug() << "The client has just send some data!";
+    emit connectedSocket(&m_client);
 }
