@@ -1,32 +1,31 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2012-06-09T18:09:29
-#
-#-------------------------------------------------
+# Add more folders to ship with the application, here
+folder_01.source = qml/uVoip
+folder_01.target = qml
+DEPLOYMENTFOLDERS = folder_01
 
 QT       += core gui multimedia network
 
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-TARGET = uVoip
-TEMPLATE = app
-
+# Additional import path used to resolve QML modules in Creator's code model
+QML_IMPORT_PATH =
 
 SOURCES += main.cpp \
-    uvoip.cpp \
     visualaudiolevel.cpp \
-    audiostream.cpp \
-    audioplayback.cpp \
+    uvoip.cpp \
+    server.cpp \
     client.cpp \
-    server.cpp
+    audiostream.cpp \
+    audioplayback.cpp
 
-HEADERS  += \
-    uvoip.h \
+HEADERS += \
     visualaudiolevel.h \
-    audiostream.h \
-    audioplayback.h \
+    uvoip.h \
+    server.h \
     client.h \
-    server.h
+    audiostream.h \
+    audioplayback.h
 
-FORMS +=
+# Please do not modify the following two lines. Required for deployment.
+include(qmlapplicationviewer/qmlapplicationviewer.pri)
+qtcAddDeployment()
+
+OTHER_FILES +=
