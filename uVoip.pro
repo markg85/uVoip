@@ -10,19 +10,19 @@ QML_IMPORT_PATH =
 
 SOURCES += main.cpp \
     visualaudiolevel.cpp \
-    uvoip.cpp \
     server.cpp \
     client.cpp \
     audiostream.cpp \
-    audioplayback.cpp
+    audioplayback.cpp \
+    audioleveldata.cpp
 
 HEADERS += \
     visualaudiolevel.h \
-    uvoip.h \
     server.h \
     client.h \
     audiostream.h \
-    audioplayback.h
+    audioplayback.h \
+    audioleveldata.h
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
