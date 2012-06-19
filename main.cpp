@@ -6,7 +6,7 @@
 #include "server.h"
 #include "client.h"
 #include "audiostream.h"
-#include "audioleveldata.h"
+#include "uvoipdata.h"
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
@@ -15,10 +15,10 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QThread tcpServerThread;
     QThread tcpClientThread;
     QThread audioThread;
-    Server tcpServer;
-    Client tcpClient;
     AudioStream stream;
-    AudioLevelData levelData;
+    UVoipData uvoipData;
+    Server tcpServer;
+    Client tcpClient(&uvoipData);
 
     tcpServer.moveToThread(&tcpServerThread);
     tcpServerThread.start();
@@ -29,19 +29,16 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     stream.moveToThread(&audioThread);
     audioThread.start();
     stream.start();
-    QObject::connect(&stream, SIGNAL(updateLevel(qreal)), &levelData, SLOT(setHostMicrophoneLevel(qreal)));
-
-    tcpClient.connectToServer("127.0.0.1", 1985);
-//    tcpClient.connectToServer("192.168.3.110", 1985);
-
-    // Once we have a connection, we send the QTcpSocket with the connection to AudioStream.
-    // AudioStream will then send the audio to the socket. I don't know if this is the best solution.
-    QObject::connect(&tcpClient, SIGNAL(connectedSocket(QTcpSocket*)), &stream, SLOT(slotClientSocket(QTcpSocket*)));
+    QObject::connect(&stream, SIGNAL(updateLevel(qreal)), &uvoipData, SLOT(setHostMicrophoneLevel(qreal)), Qt::DirectConnection);
+    QObject::connect(&tcpClient, SIGNAL(connectedSocket(QTcpSocket*)), &stream, SLOT(slotClientSocket(QTcpSocket*)), Qt::DirectConnection);
+    QObject::connect(&uvoipData, SIGNAL(requestConnectChanged()), &tcpClient, SLOT(attemptConnection()), Qt::DirectConnection);
+    QObject::connect(&uvoipData, SIGNAL(requestDisconnectChanged()), &tcpClient, SLOT(attemptDisconnection()), Qt::DirectConnection);
 
     QmlApplicationViewer viewer;
-    viewer.rootContext()->setContextProperty("levelData", &levelData);
+    viewer.rootContext()->setContextProperty("uvoipData", &uvoipData);
     viewer.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
     viewer.setMainQmlFile(QLatin1String("qml/uVoip/main.qml"));
+
     viewer.showExpanded();
 
     return app->exec();

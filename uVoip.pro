@@ -14,7 +14,7 @@ SOURCES += main.cpp \
     client.cpp \
     audiostream.cpp \
     audioplayback.cpp \
-    audioleveldata.cpp
+    uvoipdata.cpp
 
 HEADERS += \
     visualaudiolevel.h \
@@ -22,7 +22,7 @@ HEADERS += \
     client.h \
     audiostream.h \
     audioplayback.h \
-    audioleveldata.h
+    uvoipdata.h
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)

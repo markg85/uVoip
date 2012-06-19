@@ -18,6 +18,7 @@ void Server::connectionHandler()
     m_clientConnection = m_server.nextPendingConnection();
 
     m_playback.startPlaying(m_clientConnection);
+    qDebug() << "(server) Connection established!";
 
 
 
