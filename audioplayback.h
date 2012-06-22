@@ -16,10 +16,12 @@ signals:
     
 public slots:
     void stopPlaying();
-    void startPlaying(QTcpSocket* client);
+    void startPlaying(QIODevice *stream);
     void printState(QAudio::State state);
+    void processIncomingData();
 
 private:
+    QIODevice *m_stream;
     QAudioOutput *m_audioOutput;
     QAudioFormat m_format;
 };

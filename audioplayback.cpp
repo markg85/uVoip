@@ -28,13 +28,17 @@ void AudioPlayback::stopPlaying()
     //    delete m_audioOutput;
 }
 
-void AudioPlayback::startPlaying(QTcpSocket *client)
+void AudioPlayback::startPlaying(QIODevice * stream)
 {
     qDebug() << "AudioPlayback::startPlaying";
+
     m_audioOutput = new QAudioOutput(m_format);
     connect(m_audioOutput,SIGNAL(stateChanged(QAudio::State)),SLOT(printState(QAudio::State)));
-    connect(client, SIGNAL(disconnected()), this, SLOT(stopPlaying()), Qt::DirectConnection);
-    m_audioOutput->start(client);
+
+    m_stream = stream;
+    connect(m_stream, SIGNAL(readyRead()), this, SLOT(processIncomingData()), Qt::DirectConnection);
+    
+    //m_audioOutput->start(m_stream);
 }
 
 void AudioPlayback::printState(QAudio::State state)
@@ -54,6 +58,8 @@ void AudioPlayback::printState(QAudio::State state)
             break;
         case QAudio::IdleState:
             output += "QAudio::IdleState";
+            m_audioOutput->stop();
+            connect(m_stream, SIGNAL(readyRead()), this, SLOT(processIncomingData()), Qt::DirectConnection);
             break;
     }
 
@@ -80,3 +86,13 @@ void AudioPlayback::printState(QAudio::State state)
 
     qDebug() << output;
 }
+
+void AudioPlayback::processIncomingData()
+{
+    qDebug() << "AudioPlayback::processIncomingData";
+
+    disconnect(m_stream, SIGNAL(readyRead()), this, SLOT(processIncomingData()));
+    m_audioOutput->start(m_stream);
+    //m_audioOutput->start();
+}
+
