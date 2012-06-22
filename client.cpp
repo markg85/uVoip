@@ -24,6 +24,9 @@ void Client::sendAudio()
 {
 //    qDebug() << "The client has just send some data!";
 
+    m_client.setSocketOption(QTcpSocket::LowDelayOption, 1);
+
+
     m_voipData->setConnected(true);
     emit connectedSocket(&m_client);
 }

@@ -27,6 +27,7 @@ void Server::clientConnectionChanged()
 {
     if(m_voipData->connected() && m_clientConnection)
     {
+        m_clientConnection->setSocketOption(QTcpSocket::LowDelayOption, 1);
         m_playback.startPlaying(m_clientConnection);
         qDebug() << "Server::clientConnected true";
     }
