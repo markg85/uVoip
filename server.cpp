@@ -13,7 +13,7 @@ Server::Server(UVoipData* voipData, QObject *parent)
     connect(&m_server, SIGNAL(newConnection()), this, SLOT(connectionHandler()));
     m_server.listen(QHostAddress::Any, 1985);
 
-    connect(m_voipData, SIGNAL(connectedChanged()), this, SLOT(clientConnectionChanged()));
+    connect(m_voipData, SIGNAL(connectedChanged()), this, SLOT(clientConnectionChanged()), Qt::DirectConnection);
 }
 
 void Server::connectionHandler()
