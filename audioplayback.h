@@ -18,13 +18,10 @@ public slots:
     void stopPlaying();
     void startPlaying(QTcpSocket* client);
     void printState(QAudio::State state);
-    void finishedPlaying();
 
 private:
     QAudioOutput *m_audioOutput;
     QAudioFormat m_format;
-
-    
 };
 
 #endif // AUDIOPLAYBACK_H

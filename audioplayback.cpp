@@ -25,7 +25,7 @@ void AudioPlayback::stopPlaying()
 {
     qDebug() << "AudioPlayback::stopPlaying";
     m_audioOutput->stop();
-//    delete m_audioOutput;
+    //    delete m_audioOutput;
 }
 
 void AudioPlayback::startPlaying(QTcpSocket *client)
@@ -57,16 +57,26 @@ void AudioPlayback::printState(QAudio::State state)
             break;
     }
 
-    qDebug() << output;
-
-    if(state == QAudio::IdleState)
+    if(m_audioOutput->error() != QAudio::NoError)
     {
-        finishedPlaying();
+        output += ", error: ";
+        switch(m_audioOutput->error())
+        {
+            case QAudio::NoError: // keeps QtCreator happy
+            case QAudio::OpenError:
+                output += "QAudio::OpenError";
+                break;
+            case QAudio::IOError:
+                output += "QAudio::IOError";
+                break;
+            case QAudio::UnderrunError:
+                output += "QAudio::UnderrunError";
+                break;
+            case QAudio::FatalError:
+                output += "QAudio::FatalError";
+                break;
+        }
     }
-}
 
-void AudioPlayback::finishedPlaying()
-{
-    m_audioOutput->stop();
-//    delete m_audioOutput;
+    qDebug() << output;
 }
