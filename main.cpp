@@ -33,6 +33,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QObject::connect(&tcpClient, SIGNAL(connectedSocket(QIODevice*)), &stream, SLOT(slotClientSocket(QIODevice*)), Qt::DirectConnection);
     QObject::connect(&uvoipData, SIGNAL(requestConnectChanged()), &tcpClient, SLOT(attemptConnection()), Qt::DirectConnection);
     QObject::connect(&uvoipData, SIGNAL(requestDisconnectChanged()), &tcpClient, SLOT(attemptDisconnection()), Qt::DirectConnection);
+    QObject::connect(app.data(), SIGNAL(aboutToQuit()), &tcpServerThread, SLOT(quit()));
+    QObject::connect(app.data(), SIGNAL(aboutToQuit()), &tcpClientThread, SLOT(quit()));
+    QObject::connect(app.data(), SIGNAL(aboutToQuit()), &audioThread, SLOT(quit()));
 
     QmlApplicationViewer viewer;
     viewer.rootContext()->setContextProperty("uvoipData", &uvoipData);
