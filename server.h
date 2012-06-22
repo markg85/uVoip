@@ -5,6 +5,7 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include "audioplayback.h"
+#include "uvoipdata.h"
 
 /*
  * The server receives data and plays it.
@@ -15,13 +16,13 @@ class Server : public QObject
 {
     Q_OBJECT
 public:
-    explicit Server(QObject *parent = 0);
+    explicit Server(UVoipData* voipData, QObject *parent = 0);
     
 signals:
     
 public slots:
     void connectionHandler();
-    void processIncomingData();
+    void clientConnectionChanged();
 
 private:
     QTcpServer m_server;
@@ -29,6 +30,7 @@ private:
     // TODO: this is for just 1 client meaning you can only have a 1on1 conversation, not multiple people in 1 call.
     QTcpSocket* m_clientConnection;
     AudioPlayback m_playback;
+    UVoipData* m_voipData;
     
 };
 

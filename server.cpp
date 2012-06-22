@@ -3,32 +3,36 @@
 #include <QDebug>
 
 
-Server::Server(QObject *parent)
+Server::Server(UVoipData* voipData, QObject *parent)
     : QObject(parent)
     , m_server()
     , m_clientConnection()
     , m_playback()
+    , m_voipData(voipData)
 {
     connect(&m_server, SIGNAL(newConnection()), this, SLOT(connectionHandler()));
     m_server.listen(QHostAddress::Any, 1985);
+
+    connect(m_voipData, SIGNAL(connectedChanged()), this, SLOT(clientConnectionChanged()));
 }
 
 void Server::connectionHandler()
 {
     m_clientConnection = m_server.nextPendingConnection();
 
-    m_playback.startPlaying(m_clientConnection);
-    qDebug() << "(server) Connection established!";
-
-
-
-//    connect(m_clientConnection, SIGNAL(readyRead()), this, SLOT(processIncomingData()), Qt::DirectConnection);
+    qDebug() << "(server) Server has a connection with the client socket!";
 }
 
-void Server::processIncomingData()
+void Server::clientConnectionChanged()
 {
-//    QByteArray data = m_clientConnection->readAll();
-
-
-    qDebug() << m_clientConnection->readAll();
+    if(m_voipData->connected() && m_clientConnection)
+    {
+        m_playback.startPlaying(m_clientConnection);
+        qDebug() << "Server::clientConnected true";
+    }
+    else
+    {
+        m_clientConnection->close();
+        qDebug() << "Server::clientConnected false";
+    }
 }

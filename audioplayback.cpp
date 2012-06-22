@@ -36,9 +36,16 @@ void AudioPlayback::startPlaying(QIODevice * stream)
     connect(m_audioOutput,SIGNAL(stateChanged(QAudio::State)),SLOT(printState(QAudio::State)));
 
     m_stream = stream;
-    connect(m_stream, SIGNAL(readyRead()), this, SLOT(processIncomingData()), Qt::DirectConnection);
+    connect(m_stream, SIGNAL(aboutToClose()), this, SLOT(stopPlaying()));
+//    connect(stream, SIGNAL(readyRead()), this, SLOT(processIncomingData()), Qt::DirectConnection);
+
+    // Open IODevice if not open already
+    if(!stream->isOpen())
+    {
+        stream->open(QIODevice::ReadOnly);
+    }
     
-    //m_audioOutput->start(m_stream);
+    m_audioOutput->start(m_stream);
 }
 
 void AudioPlayback::printState(QAudio::State state)

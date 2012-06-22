@@ -17,7 +17,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QThread audioThread;
     AudioStream stream;
     UVoipData uvoipData;
-    Server tcpServer;
+    Server tcpServer(&uvoipData);
     Client tcpClient(&uvoipData);
 
     tcpServer.moveToThread(&tcpServerThread);
@@ -31,8 +31,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     stream.start();
     QObject::connect(&stream, SIGNAL(updateLevel(qreal)), &uvoipData, SLOT(setHostMicrophoneLevel(qreal)), Qt::DirectConnection);
     QObject::connect(&tcpClient, SIGNAL(connectedSocket(QIODevice*)), &stream, SLOT(slotClientSocket(QIODevice*)), Qt::DirectConnection);
-    QObject::connect(&uvoipData, SIGNAL(requestConnectChanged()), &tcpClient, SLOT(attemptConnection()), Qt::DirectConnection);
-    QObject::connect(&uvoipData, SIGNAL(requestDisconnectChanged()), &tcpClient, SLOT(attemptDisconnection()), Qt::DirectConnection);
     QObject::connect(app.data(), SIGNAL(aboutToQuit()), &tcpServerThread, SLOT(quit()));
     QObject::connect(app.data(), SIGNAL(aboutToQuit()), &tcpClientThread, SLOT(quit()));
     QObject::connect(app.data(), SIGNAL(aboutToQuit()), &audioThread, SLOT(quit()));
