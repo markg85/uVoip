@@ -19,7 +19,7 @@ public:
     QTcpSocket* socket();
     
 signals:
-    void connectedSocket(QTcpSocket*);
+    void connectedSocket(QIODevice*);
     
 public slots:
     void attemptConnection();

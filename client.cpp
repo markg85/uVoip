@@ -49,5 +49,4 @@ void Client::attemptDisconnection()
 void Client::disconnected()
 {
     m_voipData->setConnected(false);
-    emit connectedSocket(&m_client);
 }

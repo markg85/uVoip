@@ -90,8 +90,6 @@ Rectangle
             }
             TextInput
             {
-                width: 100
-                height: 20
                 text: "Socket connection"
             }
 

@@ -2,7 +2,6 @@
 #define AUDIOPLAYBACK_H
 
 #include <QObject>
-#include <QFile>
 #include <QAudioFormat>
 #include <QAudioOutput>
 #include <QTcpSocket>
@@ -18,10 +17,10 @@ signals:
 public slots:
     void stopPlaying();
     void startPlaying(QTcpSocket* client);
-    void finishedPlaying(QAudio::State state);
+    void printState(QAudio::State state);
+    void finishedPlaying();
 
 private:
-    QFile m_inputFile;
     QAudioOutput *m_audioOutput;
     QAudioFormat m_format;
 

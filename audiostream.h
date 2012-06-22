@@ -24,14 +24,14 @@ signals:
     void updateLevel(qreal);
     
 public slots:
-    void slotClientSocket(QTcpSocket* client);
+    void slotClientSocket(QIODevice* client);
 
 private:
     QAudioFormat m_format;
     QAudioInput* m_audioInput;
     quint16 m_maxAmplitude;
     qreal m_level; // 0.0 <= m_level <= 1.0
-    QTcpSocket* m_client;
+    QIODevice* m_client;
     bool hasClientSocket;
     
 };

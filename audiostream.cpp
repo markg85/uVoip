@@ -132,7 +132,7 @@ qint64 AudioStream::readData(char *data, qint64 maxlen)
 }
 
 
-void AudioStream::slotClientSocket(QTcpSocket *client)
+void AudioStream::slotClientSocket(QIODevice *client)
 {
     m_client = client;
     hasClientSocket = true;
