@@ -20,19 +20,35 @@ Rectangle
             remoteMicrophone.micLevel = remoteMicrophoneLevel
         }
 
-        onConnectedChanged:
+        onClientConnectedChanged:
         {
-            if(connected)
+            if(clientConnected)
             {
                 connectionBackground.color = "green"
+                clientConnectionBar.color = "green"
                 connectionText.text = "CONNECTED"
                 console.log("QML, client: Connected!")
             }
             else
             {
                 connectionBackground.color = "blue"
+                clientConnectionBar.color = "red"
                 connectionText.text = "CONNECT"
                 console.log("QML, client: Disconnected!")
+            }
+        }
+
+        onServerConnectedChanged:
+        {
+            if(serverConnected)
+            {
+                serverConnectionBar.color = "green"
+                console.log("QML, server: Connected!")
+            }
+            else
+            {
+                serverConnectionBar.color = "red"
+                console.log("QML, server: Disconnected!")
             }
         }
     }
@@ -106,6 +122,7 @@ Rectangle
                     width: 100
                     anchors.right: parent.right
                     color: "blue"
+
                     Text
                     {
                         id: connectionText
@@ -117,7 +134,7 @@ Rectangle
                         anchors.fill: parent
                         onClicked:
                         {
-                            if(uvoipDataItem.connected)
+                            if(uvoipDataItem.clientConnected)
                             {
                                 uvoipData.requestDisconnect()
                                 console.log("Requested to disconnect")
@@ -152,9 +169,46 @@ Rectangle
 
                     onAccepted:
                     {
-                        console.log("Enter pressed")
                         uvoipData.socketUrl = text
                     }
+                }
+            }
+
+            // Streaming side (non playing)
+            TextInput
+            {
+                text: "Streaming (Sending audio data to the remote ip)"
+            }
+
+            Rectangle
+            {
+                id: clientConnectionBar
+                width: parent.width
+                height: 20
+                color: "red"
+
+                Behavior on color
+                {
+                    ColorAnimation {}
+                }
+            }
+
+            // Playing side (receiving data and play it)
+            TextInput
+            {
+                text: "Receiving (Playing data from the remote ip)"
+            }
+
+            Rectangle
+            {
+                id: serverConnectionBar
+                width: parent.width
+                height: 20
+                color: "red"
+
+                Behavior on color
+                {
+                    ColorAnimation {}
                 }
             }
         }

@@ -27,7 +27,7 @@ void Client::sendAudio()
     m_client.setSocketOption(QTcpSocket::LowDelayOption, 1);
 
 
-    m_voipData->setConnected(true);
+    m_voipData->setClientConnected(true);
     emit connectedSocket(&m_client);
 }
 
@@ -53,5 +53,5 @@ void Client::attemptDisconnection()
 
 void Client::disconnected()
 {
-    m_voipData->setConnected(false);
+    m_voipData->setClientConnected(false);
 }

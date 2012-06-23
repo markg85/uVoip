@@ -7,7 +7,8 @@ UVoipData::UVoipData(QDeclarativeItem *parent)
     , m_hostMicLevel(0)
     , m_remoteMicLevel(0)
     , m_socketUrl()
-    , m_connected(false)
+    , m_clientConnected(false)
+    , m_serverConnected(false)
 {
 }
 
@@ -42,9 +43,14 @@ void UVoipData::requestDisconnect()
     emit requestDisconnectChanged();
 }
 
-bool UVoipData::connected()
+bool UVoipData::clientConnected()
 {
-    return m_connected;
+    return m_clientConnected;
+}
+
+bool UVoipData::serverConnected()
+{
+    return m_serverConnected;
 }
 
 void UVoipData::setRemoteMicrophoneLevel(qreal level)
@@ -61,10 +67,22 @@ void UVoipData::setSocketUrl(const QString &url)
     emit socketUrlChanged();
 }
 
-void UVoipData::setConnected(bool isConnected)
+void UVoipData::setClientConnected(bool isConnected)
 {
-    m_connected = isConnected;
-    emit connectedChanged();
+    if(m_clientConnected != isConnected)
+    {
+        m_clientConnected = isConnected;
+        emit clientConnectedChanged();
+    }
+}
+
+void UVoipData::setServerConnected(bool isConnected)
+{
+    if(m_serverConnected != isConnected)
+    {
+        m_serverConnected = isConnected;
+        emit serverConnectedChanged();
+    }
 }
 
 

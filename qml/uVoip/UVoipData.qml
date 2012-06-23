@@ -5,7 +5,8 @@ Item
     id: root
     property real hostMicrophoneLevel: 0
     property real remoteMicrophoneLevel: 0
-    property bool connected: false
+    property bool clientConnected: false
+    property bool serverConnected: false
 
     Connections
     {
@@ -14,14 +15,20 @@ Item
         {
             root.hostMicrophoneLevel = uvoipData.hostMicrophoneLevel
         }
+
         onRemoteMicrophoneLevelChanged:
         {
             root.remoteMicrophoneLevel = uvoipData.remoteMicrophoneLevel
         }
 
-        onConnectedChanged:
+        onClientConnectedChanged:
         {
-            root.connected = uvoipData.connected
+            root.clientConnected = uvoipData.clientConnected
+        }
+
+        onServerConnectedChanged:
+        {
+            root.serverConnected = uvoipData.serverConnected
         }
     }
 }

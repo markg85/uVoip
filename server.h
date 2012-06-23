@@ -23,6 +23,7 @@ signals:
 public slots:
     void connectionHandler();
     void clientConnectionChanged();
+    void connectionClosed();
 
 private:
     QTcpServer m_server;
