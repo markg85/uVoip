@@ -141,6 +141,7 @@ Rectangle
                             }
                             else
                             {
+                                uvoipData.socketUrl = socketUrl.text
                                 uvoipData.requestConnect()
                                 console.log("Requested to connect")
                             }
@@ -158,6 +159,7 @@ Rectangle
                 }
                 TextInput
                 {
+                    id: socketUrl
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: connectionUrl.right
                     text: "127.0.0.1:1985"
