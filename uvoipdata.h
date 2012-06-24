@@ -29,6 +29,7 @@ signals:
     void requestDisconnectChanged();
     void clientConnectedChanged();
     void serverConnectedChanged();
+    void clientConnectionFailedChanged();
     
 public slots:
     void setHostMicrophoneLevel(qreal level);
@@ -36,6 +37,7 @@ public slots:
     void setSocketUrl(const QString& url);
     void setClientConnected(bool isConnected);
     void setServerConnected(bool isConnected);
+    void emitClientConnectionFailed();
 
 private:
     qreal m_hostMicLevel;
@@ -43,6 +45,7 @@ private:
     QString m_socketUrl;
     bool m_clientConnected;
     bool m_serverConnected;
+    bool m_clientConnectionFailed;
 };
 
 #endif // UVOIPDATA_H

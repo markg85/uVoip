@@ -7,6 +7,7 @@ Item
     property real remoteMicrophoneLevel: 0
     property bool clientConnected: false
     property bool serverConnected: false
+    property bool clientConnectionFailed: false
 
     Connections
     {

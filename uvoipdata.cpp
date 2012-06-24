@@ -85,4 +85,9 @@ void UVoipData::setServerConnected(bool isConnected)
     }
 }
 
+void UVoipData::emitClientConnectionFailed()
+{
+    emit clientConnectionFailedChanged();
+}
+
 

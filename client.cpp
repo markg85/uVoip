@@ -44,6 +44,12 @@ void Client::attemptConnection()
     qDebug() << "--> Port:" << port;
 
     m_client.connectToHost(host, port);
+
+    // We wait for 3 seconds max!
+    if(!m_client.waitForConnected(3000))
+    {
+        m_voipData->emitClientConnectionFailed();
+    }
 }
 
 void Client::attemptDisconnection()
