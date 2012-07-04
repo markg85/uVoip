@@ -9,7 +9,7 @@ Client::Client(UVoipData* voipData, QObject *parent)
     , m_client()
     , m_voipData(voipData)
 {
-    connect(&m_client, SIGNAL(connected()), this, SLOT(sendAudio()), Qt::DirectConnection);
+    connect(&m_client, SIGNAL(connected()), this, SLOT(connected()), Qt::DirectConnection);
     connect(&m_client, SIGNAL(disconnected()), this, SLOT(disconnected()), Qt::DirectConnection);
     connect(m_voipData, SIGNAL(requestConnectChanged()), this, SLOT(attemptConnection()), Qt::DirectConnection);
     connect(m_voipData, SIGNAL(requestDisconnectChanged()), this, SLOT(attemptDisconnection()), Qt::DirectConnection);
@@ -20,7 +20,7 @@ QTcpSocket *Client::socket()
     return &m_client;
 }
 
-void Client::sendAudio()
+void Client::connected()
 {
 //    qDebug() << "The client has just send some data!";
 

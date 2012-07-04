@@ -9,7 +9,6 @@ QT       += core gui multimedia network
 QML_IMPORT_PATH =
 
 SOURCES += main.cpp \
-    visualaudiolevel.cpp \
     server.cpp \
     client.cpp \
     audiostream.cpp \
@@ -17,7 +16,6 @@ SOURCES += main.cpp \
     uvoipdata.cpp
 
 HEADERS += \
-    visualaudiolevel.h \
     server.h \
     client.h \
     audiostream.h \

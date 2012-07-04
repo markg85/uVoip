@@ -25,7 +25,6 @@ void AudioPlayback::stopPlaying()
 {
     qDebug() << "AudioPlayback::stopPlaying";
     m_audioOutput->stop();
-    //    delete m_audioOutput;
 }
 
 void AudioPlayback::startPlaying(QIODevice * stream)
@@ -44,7 +43,7 @@ void AudioPlayback::startPlaying(QIODevice * stream)
     {
         stream->open(QIODevice::ReadOnly);
     }
-    
+
     m_audioOutput->start(m_stream);
 }
 
@@ -65,8 +64,8 @@ void AudioPlayback::printState(QAudio::State state)
             break;
         case QAudio::IdleState:
             output += "QAudio::IdleState";
-            m_audioOutput->stop();
-            connect(m_stream, SIGNAL(readyRead()), this, SLOT(processIncomingData()), Qt::DirectConnection);
+//            m_audioOutput->stop();
+//            connect(m_stream, SIGNAL(readyRead()), this, SLOT(processIncomingData()), Qt::DirectConnection);
             break;
     }
 
@@ -96,10 +95,12 @@ void AudioPlayback::printState(QAudio::State state)
 
 void AudioPlayback::processIncomingData()
 {
-    qDebug() << "AudioPlayback::processIncomingData";
+//    qDebug() << "AudioPlayback::processIncomingData";
 
-    disconnect(m_stream, SIGNAL(readyRead()), this, SLOT(processIncomingData()));
-    m_audioOutput->start(m_stream);
+//    disconnect(m_stream, SIGNAL(readyRead()), this, SLOT(processIncomingData()));
+//    m_audioOutput->start(m_stream);
     //m_audioOutput->start();
+
+    qDebug() << "Data.... ->" << m_stream->readAll();
 }
 

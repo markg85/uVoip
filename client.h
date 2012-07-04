@@ -25,7 +25,7 @@ public slots:
     void attemptConnection();
     void attemptDisconnection();
     void disconnected();
-    void sendAudio();
+    void connected();
     
 private:
     QTcpSocket m_client;

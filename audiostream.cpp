@@ -13,6 +13,7 @@ AudioStream::AudioStream(QObject *parent)
     , m_client()
     , hasClientSocket(false)
 {
+//    m_client->open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Unbuffered);
     m_format.setFrequency(8000);
     m_format.setChannels(1);
     m_format.setSampleSize(16);
@@ -60,7 +61,7 @@ AudioStream::AudioStream(QObject *parent)
 
 void AudioStream::start()
 {
-    open(QIODevice::WriteOnly | QIODevice::Truncate);
+    open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Unbuffered);
     m_audioInput->start(this);
 }
 
@@ -72,11 +73,6 @@ void AudioStream::stop()
 
 qint64 AudioStream::writeData(const char *data, qint64 len)
 {
-    if(hasClientSocket)
-    {
-        m_client->write(data, len);
-    }
-
     if (m_maxAmplitude) {
         Q_ASSERT(m_format.sampleSize() % 8 == 0);
         const int channelBytes = m_format.sampleSize() / 8;
@@ -119,6 +115,12 @@ qint64 AudioStream::writeData(const char *data, qint64 len)
 
 
     emit updateLevel(m_level);
+
+    if(hasClientSocket)
+    {
+        return m_client->write(data, len);
+    }
+
     return len;
 }
 

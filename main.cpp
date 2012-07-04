@@ -18,7 +18,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     AudioStream stream;
     UVoipData uvoipData;
     Server tcpServer(&uvoipData);
-    Client tcpClient(&uvoipData);
+    Client tcpClient(&uvoipData, &stream);
 
     tcpServer.moveToThread(&tcpServerThread);
     tcpServerThread.start();
